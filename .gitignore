@@ -12,3 +12,13 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+
+target
+.idea/*
+!.idea/runConfigurations/
+!.idea/scopes/
+!.idea/watcherTasks.xml
+*.iml
+bin
+.DS_Store
+checkstyle-cachefile
