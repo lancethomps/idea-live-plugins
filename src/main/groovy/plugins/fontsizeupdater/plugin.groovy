@@ -1,4 +1,7 @@
-import static liveplugin.PluginUtil.*
+package plugins.fontsizeupdater
+
+import static liveplugin.PluginUtil.registerAction
+import static liveplugin.PluginUtil.show
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
