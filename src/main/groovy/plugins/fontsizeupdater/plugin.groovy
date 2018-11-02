@@ -1,38 +1,18 @@
 package plugins.fontsizeupdater
 
-import static liveplugin.PluginUtil.registerAction
-import static liveplugin.PluginUtil.show
-
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
-import common.PrefsUtil
+import common.Runner
 
 // add-to-classpath $HOME/github/idea-live-plugins/src/main/groovy
 
-class UpdateFontSizeAction extends AnAction {
+Runner.isIdeStartup = isIdeStartup
 
-  private int fontSize;
-
-  UpdateFontSizeAction(int fontSize) {
-    this.fontSize = fontSize;
-  }
-
-  @Override
-  void actionPerformed(AnActionEvent e) {
-    PrefsUtil.updateEditorFont(fontSize)
-    PrefsUtil.updateSystemFont(fontSize)
-    PrefsUtil.reloadUI()
-  }
-}
-
-static def registerUpdateFontSize(String type, int fontSize, boolean isIdeStartup) {
-  def id = String.format("UpdateFontSize%s", type.replaceAll(" ", ""))
+static def registerUpdateFontSize(String type, int fontSize) {
+  def actionId = String.format("UpdateFontSize%s", type.replaceAll(" ", ""))
   def displayText = String.format("Update Font Size - %s (%s)", type, fontSize);
-  registerAction(id, "", null, displayText, new UpdateFontSizeAction(fontSize))
-  if (!isIdeStartup) show(String.format("Loaded '%s'<br/>Run it through the actions search", displayText))
+  Runner.registerAction(new UpdateFontSizeAction(fontSize), displayText, "", actionId)
 }
 
-registerUpdateFontSize("Extra Small", 7, isIdeStartup)
-registerUpdateFontSize("Small", 9, isIdeStartup)
-registerUpdateFontSize("Medium", 10, isIdeStartup)
-registerUpdateFontSize("Large", 11, isIdeStartup)
+registerUpdateFontSize("Extra Small", 7)
+registerUpdateFontSize("Small", 9)
+registerUpdateFontSize("Medium", 10)
+registerUpdateFontSize("Large", 11)
