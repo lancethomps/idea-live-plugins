@@ -1,5 +1,7 @@
 package plugins.configlogger
 
+import static liveplugin.PluginUtil.show
+
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentMap
 
@@ -47,5 +49,9 @@ class ConfigLogger {
 
   static void logUISettings() {
     PrefsUtil.logUtilClassBooleanSettings(UIUtil.class)
+  }
+
+  static void showFontSizes() {
+    show("Font Sizes<br/>System: ${PrefsUtil.getSystemFontSize()} | Editor: ${PrefsUtil.getEditorFontSize()}")
   }
 }

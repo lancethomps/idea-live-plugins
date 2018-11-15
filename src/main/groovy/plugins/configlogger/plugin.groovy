@@ -9,7 +9,7 @@ import common.Strings
 
 Runner.isIdeStartup = isIdeStartup
 
-ConfigLogger.class.getDeclaredMethods().findAll { method -> method.getName().startsWith("log") && Modifier.isStatic(method.getModifiers()) }.each { method ->
+ConfigLogger.class.getDeclaredMethods().findAll { method -> (method.getName().startsWith("log") || method.getName().startsWith("show")) && Modifier.isStatic(method.getModifiers()) }.each { method ->
   def id = method.getName().capitalize()
   def displayText = Strings.toHumanCase(method.getName())
   Runner.registerAction({ e ->

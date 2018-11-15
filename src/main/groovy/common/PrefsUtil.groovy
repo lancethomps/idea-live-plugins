@@ -12,6 +12,14 @@ import com.intellij.openapi.editor.colors.impl.AppEditorFontOptions
 
 class PrefsUtil {
 
+  static def getEditorFontSize() {
+    return AppEditorFontOptions.getInstance().getState().FONT_SIZE
+  }
+
+  static def getSystemFontSize() {
+    return UISettings.instance.getState().fontSize
+  }
+
   static def updateEditorFont(int fontSize) {
     def options = AppEditorFontOptions.getInstance()
     def state = options.getState()
