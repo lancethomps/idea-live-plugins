@@ -39,7 +39,7 @@ kotlin.experimental.coroutines = "enable"
 ext.kotlinVersion = "1.1.4"
 
 intellij {
-  def ideVersion = System.getenv().getOrDefault("LIVEPLUGIN_IDEA_VERSION", "183.3975.18")
+  def ideVersion = System.getenv().getOrDefault("LIVEPLUGIN_IDEA_VERSION", "191.6183.87")
   println("Using IntelliJ version: ${ideVersion}")
   version ideVersion
 
