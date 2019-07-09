@@ -33,6 +33,10 @@ abstract class AbstractCopyFilePathAction extends AnAction implements DumbAware 
     }
   }
 
+  String getActionText() {
+    return actionText
+  }
+
   abstract String getCopyStringForFile(AnActionEvent event, VirtualFile file);
 
   protected String getPaths(AnActionEvent event, VirtualFile[] files) {

@@ -32,12 +32,20 @@ class LivePluginSandbox {
 
   static void test() {
     Project project = PluginUtil.currentProjectInFrame()
-    VirtualFile file = PluginUtil.findFileByName("LivePluginSandbox.groovy", project).getVirtualFile()
+//    def fileName = "wealthfront-main.graphqls"
+    def fileName = "submitAccountRequest2.yaml"
+//    def fileName = "testroot.txt"
+    VirtualFile file = PluginUtil.findFileByName(fileName, project).getVirtualFile()
     ProjectFileIndex projectFileIndex = ProjectFileIndex.getInstance(project)
     Module module = projectFileIndex.getModuleForFile(file)
     VirtualFile sourceRoot = projectFileIndex.getSourceRootForFile(file)
-    show("sourceRoot: ${sourceRoot}")
     VirtualFile contentRoot = projectFileIndex.getContentRootForFile(file)
-    show("contentRoot: ${contentRoot}")
+    VirtualFile parentContentRoot = projectFileIndex.getContentRootForFile(contentRoot.getParent())
+    Logs.showMessagesInConsole("File Roots", [
+      "file=${file}",
+      "sourceRoot=${sourceRoot}",
+      "contentRoot=${contentRoot}",
+      "parentContentRoot=${parentContentRoot}"
+    ])
   }
 }

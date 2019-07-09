@@ -6,6 +6,10 @@ import common.Runner
 
 Runner.isIdeStartup = isIdeStartup
 
-Runner.registerAction(new CopyFileNameAction(), "Copy File Name")
-Runner.registerAction(new CopyPathRelativeToHomeAction(), "Copy Path Relative To Home Directory")
-Runner.registerAction(new CopyPathRelativeToModuleAction(), "Copy Path Relative To Parent Module Directory")
+[
+  new CopyFileNameAction(),
+  new CopyPathRelativeToHomeAction(),
+  new CopyPathRelativeToModuleAction(),
+  new CopyPathRelativeToTopModuleAction()
+].each { Runner.registerAction(it, it.getActionText()) }
+
