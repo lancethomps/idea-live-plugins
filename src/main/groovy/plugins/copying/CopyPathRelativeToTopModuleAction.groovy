@@ -13,8 +13,10 @@ class CopyPathRelativeToTopModuleAction extends AbstractCopyFilePathAction {
   @Override
   String getCopyStringForFile(AnActionEvent event, VirtualFile file) {
     ProjectFileIndex projectFileIndex = ProjectFileIndex.getInstance(event.getProject());
+    int count = 0;
     VirtualFile contentRoot = projectFileIndex.getContentRootForFile(file);
-    while (contentRoot != null) {
+    while (contentRoot != null && count < 10) {
+      count++;
       VirtualFile parentContentRoot = projectFileIndex.getContentRootForFile(contentRoot.getParent());
       if (parentContentRoot == null) {
         break;
