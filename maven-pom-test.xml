@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.lancethomps</groupId>
+  <artifactId>idea-live-plugins</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>idea-live-plugins</name>
+  <url>https://github.com/lancethomps/idea-live-plugins</url>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Lance Thompson</name>
+      <email>lthompson05@gmail.com</email>
+      <organizationUrl>https://github.com/lancethomps</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com:lancethomps/idea-live-plugins.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com:lancethomps/idea-live-plugins.git</developerConnection>
+    <url>https://github.com/lancethomps/idea-live-plugins</url>
+  </scm>
+
+  <properties>
+    <java.level>1.8</java.level>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss z</maven.build.timestamp.format>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <tests.timeout>500</tests.timeout>
+
+    <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+
+    <skip.tests.integration>false</skip.tests.integration>
+    <skip.tests.unit>false</skip.tests.unit>
+
+    <version.groovy>2.5.7</version.groovy>
+    <version.kotlin>1.3.41</version.kotlin>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>${version.groovy}</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>com.intellij</groupId>
+      <artifactId>openapi</artifactId>
+      <version>7.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jetbrains.intellij.idea</groupId>
+      <artifactId>platform-impl</artifactId>
+      <version>191.6183.87</version>
+    </dependency>
+    <dependency>
+      <groupId>liveplugin</groupId>
+      <artifactId>live-plugin</artifactId>
+      <version>0.6.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-stdlib</artifactId>
+      <version>${version.kotlin}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.7.0</version>
+          <configuration>
+            <debug>true</debug>
+            <encoding>UTF-8</encoding>
+            <fork>true</fork>
+            <source>${java.level}</source>
+            <target>${java.level}</target>
+            <showDeprecation>false</showDeprecation>
+            <showWarnings>false</showWarnings>
+            <compilerArgs>
+              <arg>-Xlint:classfile</arg>
+            </compilerArgs>
+          </configuration>
+          <executions>
+            <!-- Replacing default-compile as it is treated specially by maven -->
+            <execution>
+              <id>default-compile</id>
+              <phase>none</phase>
+            </execution>
+            <!-- Replacing default-testCompile as it is treated specially by maven -->
+            <execution>
+              <id>default-testCompile</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>compile-java</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>test-compile-java</id>
+              <phase>test-compile</phase>
+              <goals>
+                <goal>testCompile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.8</version>
+          <executions>
+            <execution>
+              <id>compile-groovy</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>run</goal>
+              </goals>
+              <configuration>
+                <tasks>
+                  <mkdir dir="${basedir}/src/main/groovy"/>
+                  <taskdef classname="org.codehaus.groovy.ant.Groovyc" name="groovyc">
+                    <classpath refid="maven.compile.classpath"/>
+                  </taskdef>
+                  <mkdir dir="${project.build.outputDirectory}"/>
+                  <groovyc destdir="${project.build.outputDirectory}" listfiles="true" srcdir="${basedir}/src/main/groovy">
+                    <classpath refid="maven.compile.classpath"/>
+                  </groovyc>
+                </tasks>
+              </configuration>
+            </execution>
+            <execution>
+              <id>test-compile-groovy</id>
+              <phase>test-compile</phase>
+              <goals>
+                <goal>run</goal>
+              </goals>
+              <configuration>
+                <tasks>
+                  <mkdir dir="${basedir}/src/test/groovy"/>
+                  <taskdef classname="org.codehaus.groovy.ant.Groovyc" name="groovyc">
+                    <classpath refid="maven.test.classpath"/>
+                  </taskdef>
+                  <mkdir dir="${project.build.testOutputDirectory}"/>
+                  <groovyc destdir="${project.build.testOutputDirectory}" listfiles="true" srcdir="${basedir}/src/test/groovy">
+                    <classpath refid="maven.test.classpath"/>
+                  </groovyc>
+                </tasks>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.gmavenplus</groupId>
+          <artifactId>gmavenplus-plugin</artifactId>
+          <version>1.7.1</version>
+          <executions>
+            <execution>
+              <id>compile-groovy</id>
+              <goals>
+                <goal>addSources</goal>
+                <goal>addTestSources</goal>
+                <goal>generateStubs</goal>
+                <goal>compile</goal>
+                <goal>generateTestStubs</goal>
+                <goal>compileTests</goal>
+                <goal>removeStubs</goal>
+                <goal>removeTestStubs</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-maven-plugin</artifactId>
+          <version>${version.kotlin}</version>
+          <executions>
+            <execution>
+              <id>compile-kotlin</id>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+              <configuration>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                  <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                </sourceDirs>
+              </configuration>
+            </execution>
+            <execution>
+              <id>test-compile-kotlin</id>
+              <goals>
+                <goal>test-compile</goal>
+              </goals>
+              <configuration>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+                  <sourceDir>${project.basedir}/src/test/java</sourceDir>
+                </sourceDirs>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>add-groovy-source-folder</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/main/groovy</source>
+                <source>src/main/kotlin</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+      </plugin> -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>quick</id>
+      <properties>
+        <checkstyle.skip>true</checkstyle.skip>
+        <enforcer.skip>true</enforcer.skip>
+        <skipTests>true</skipTests>
+      </properties>
+    </profile>
+  </profiles>
+</project>
