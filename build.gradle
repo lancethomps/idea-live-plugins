@@ -50,7 +50,7 @@ intellij {
   plugins = ["Groovy", "Kotlin", "git4idea", "github", "junit"]
 }
 
-group 'com.github.lancethomps'
+group 'com.lancethomps'
 version '1.0.0-SNAPSHOT'
 
 dependencies {
