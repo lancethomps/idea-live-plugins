@@ -1,3 +1,7 @@
+# Idea Live Plugins
+
+_Soure for below: [repo](https://github.com/dkandalov/live-plugin) and [specific file](https://github.com/lancethomps/idea-live-plugins/blob/master/IntellijApiCheatSheet.md)_
+
 ### IntelliJ API mini cheat sheet
 
 Getting source code (see also [Build Community Edition page](http://www.jetbrains.org/pages/viewpage.action?pageId=983225)):

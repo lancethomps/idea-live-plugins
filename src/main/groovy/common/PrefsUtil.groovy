@@ -5,10 +5,14 @@ import static liveplugin.PluginUtil.show
 
 import java.lang.reflect.Modifier
 
+import com.intellij.application.options.CodeStyle
 import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.UISettings
+import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.colors.impl.AppEditorFontOptions
+import com.intellij.psi.codeStyle.CodeStyleSchemes
+import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemeImpl
 
 class PrefsUtil {
 
@@ -18,6 +22,10 @@ class PrefsUtil {
 
   static def getSystemFontSize() {
     return UISettings.instance.getState().fontSize
+  }
+
+  static def getLanguage(String id) {
+    return LanguageUtil.getFileLanguages().find { it.ID.toLowerCase() == id.toLowerCase() }
   }
 
   static def updateEditorFont(int fontSize) {
@@ -34,6 +42,19 @@ class PrefsUtil {
     show("Changing system font size from " + state.fontSize + " to " + fontSize)
     state.fontSize = fontSize
     options.loadState(state)
+  }
+
+  static def getJavaCodeStyleKeepLineBreaks() {
+    return CodeStyle.getDefaultSettings().getCommonSettings(getLanguage("java")).KEEP_LINE_BREAKS
+  }
+
+  static def updateJavaCodeStyleKeepLineBreaks(boolean keepLineBreaks) {
+    def codeStyleScheme = CodeStyleSchemes.getInstance().findPreferredScheme(null) as CodeStyleSchemeImpl
+    def settings = codeStyleScheme.getCodeStyleSettings()
+    def javaSettings = settings.getCommonSettings(getLanguage("java"))
+    javaSettings.KEEP_LINE_BREAKS = keepLineBreaks
+    codeStyleScheme.setCodeStyleSettings(settings)
+    codeStyleScheme.writeScheme()
   }
 
   static def reloadUI() {

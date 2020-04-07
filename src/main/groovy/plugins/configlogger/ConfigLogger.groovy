@@ -6,6 +6,7 @@ import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentMap
 
 import com.intellij.ide.plugins.PluginManager
+import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.util.messages.Topic
@@ -40,6 +41,13 @@ class ConfigLogger {
     details.add("\nDETAILS\n")
     details.addAll(connectionsDetails)
     Logs.showMessagesInConsole("Subscribers", details)
+  }
+
+  static void logLanguages() {
+    Logs.showMessagesInConsole(
+      "Languages",
+      LanguageUtil.getFileLanguages().collect { it.toString() }.toSorted(String.CASE_INSENSITIVE_ORDER)
+    )
   }
 
   static void logPlugins() {
