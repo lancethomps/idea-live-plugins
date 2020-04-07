@@ -48,7 +48,7 @@ intellij {
   downloadSources = true
   sameSinceUntilBuild = false
   updateSinceUntilBuild = false
-  plugins = ["Groovy", "Kotlin", "git4idea", "github", "junit", "Java"]
+  plugins = ["Groovy", "Kotlin", "git4idea", "github", "junit", "java"]
 }
 
 group 'com.lancethomps'
