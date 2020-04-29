@@ -70,6 +70,5 @@ class LivePluginSandbox {
   }
 
   static void test() {
-    show("test")
   }
 }
