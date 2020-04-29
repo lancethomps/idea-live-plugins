@@ -94,7 +94,7 @@ class FormatCustomWithoutKeepingLineBreaksAction extends AnAction {
 
   void updateCodeStyle(AnActionEvent event) {
     def currentValue = PrefsUtil.getJavaCodeStyleKeepLineBreaks()
-    PluginUtil.log("current: " + currentValue)
+    PluginUtil.log("current javaCodeStyleKeepLineBreaks: " + currentValue)
 
     def project = getProjectFromEvent(event)
     PrefsUtil.updateJavaCodeStyleKeepLineBreaks(false)
