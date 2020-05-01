@@ -9,7 +9,6 @@ import com.intellij.application.options.CodeStyle
 import com.intellij.application.options.codeStyle.arrangement.action.RearrangeCodeAction
 import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor
 import com.intellij.codeInsight.actions.ReformatCodeAction
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.DataContext
@@ -20,30 +19,26 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 import com.intellij.util.IncorrectOperationException
 
+import common.BasePluginAction
 import common.PrefsUtil
 import liveplugin.PluginUtil
 
-class FormatCustomWithoutKeepingLineBreaksAction extends AnAction {
+class FormatCustomWithoutKeepingLineBreaksAction extends BasePluginAction {
 
   private final ReformatCodeAction reformatCodeAction = new ReformatCodeAction()
   private final RearrangeCodeAction rearrangeCodeAction = new RearrangeCodeAction()
 
   @Override
   void actionPerformed(AnActionEvent event) {
+    super.actionPerformed(event)
+    updateCodeStyle(event)
     callActions(event)
     resetCodeStyle(event)
   }
 
-  @Override
-  void update(AnActionEvent event) {
-    updateCodeStyle(event)
-    reformatCodeAction.update(event)
-    rearrangeCodeAction.update(event)
-  }
-
   void callActions(AnActionEvent event) {
-    reformatCodeAction.actionPerformed(event)
-    rearrangeCodeAction.actionPerformed(event)
+    new ReformatCodeAction().actionPerformed(event)
+    new RearrangeCodeAction().actionPerformed(event)
   }
 
   Project getProjectFromEvent(AnActionEvent event) {

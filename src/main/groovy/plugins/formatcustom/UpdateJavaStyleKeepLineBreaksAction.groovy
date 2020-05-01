@@ -1,11 +1,11 @@
 package plugins.formatcustom
 
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
+import common.BasePluginAction
 import common.PrefsUtil
 
-class UpdateJavaStyleKeepLineBreaksAction extends AnAction {
+class UpdateJavaStyleKeepLineBreaksAction extends BasePluginAction {
 
   private boolean keepLineBreaks;
 
@@ -15,6 +15,7 @@ class UpdateJavaStyleKeepLineBreaksAction extends AnAction {
 
   @Override
   void actionPerformed(AnActionEvent e) {
+    super.actionPerformed(e)
     PrefsUtil.updateJavaCodeStyleKeepLineBreaks(keepLineBreaks)
   }
 }
