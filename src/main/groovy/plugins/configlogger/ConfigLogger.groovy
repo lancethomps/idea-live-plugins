@@ -1,6 +1,8 @@
 package plugins.configlogger
 
+import static liveplugin.PluginUtil.currentProjectInFrame
 import static liveplugin.PluginUtil.show
+import static liveplugin.PluginUtil.showInConsole
 
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentMap
@@ -9,6 +11,7 @@ import com.intellij.ide.plugins.PluginManager
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.util.messages.Topic
 import com.intellij.util.messages.impl.MessageBusConnectionImpl
 import com.intellij.util.messages.impl.MessageBusImpl
@@ -16,6 +19,7 @@ import com.intellij.util.ui.UIUtil
 
 import common.Logs
 import common.PrefsUtil
+import groovy.json.JsonOutput
 
 class ConfigLogger {
 
@@ -59,7 +63,29 @@ class ConfigLogger {
     PrefsUtil.logUtilClassBooleanSettings(UIUtil.class)
   }
 
+  private static Map<String, List<String>> getFileTypes() {
+    def manager = FileTypeManager.getInstance()
+    Map<String, List<String>> jsonData = new TreeMap<>(String.CASE_INSENSITIVE_ORDER)
+    manager.getRegisteredFileTypes().each { type ->
+      def associations = manager.getAssociations(type)
+      def matchers = associations.collect { it.presentableString }.toSorted(String.CASE_INSENSITIVE_ORDER)
+      jsonData.put(type.name, matchers)
+    }
+    return jsonData
+  }
+
+  static void logFileTypes() {
+    def fileTypes = getFileTypes().collect { type, matchers -> "${type}\n${Logs.PRINT_SEP}\n${matchers.join("\n")}\n".toString() }
+      .toSorted(String.CASE_INSENSITIVE_ORDER)
+    Logs.showMessagesInConsole("File Types", fileTypes)
+  }
+
+  static void logFileTypesJson() {
+    showInConsole("${JsonOutput.prettyPrint(JsonOutput.toJson(getFileTypes()))}", "File Types JSON", currentProjectInFrame())
+  }
+
   static void showFontSizes() {
     show("Font Sizes<br/>System: ${PrefsUtil.getSystemFontSize()} | Editor: ${PrefsUtil.getEditorFontSize()}")
   }
+
 }
