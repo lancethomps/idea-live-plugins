@@ -8,8 +8,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class FormatCustomAction extends AnAction {
 
   @Override
-  void actionPerformed(AnActionEvent e) {
-    new ReformatCodeAction().actionPerformed(e)
-    new RearrangeCodeAction().actionPerformed(e)
+  void actionPerformed(AnActionEvent event) {
+    new ReformatCodeAction().actionPerformed(event)
+    new RearrangeCodeAction().actionPerformed(event)
   }
 }
