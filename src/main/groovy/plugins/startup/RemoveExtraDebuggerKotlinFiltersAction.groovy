@@ -61,13 +61,13 @@ class RemoveExtraDebuggerKotlinFiltersAction extends BasePluginAction {
       }
     }
 
-    if (kotlinFiltersCount >= 2) {
-      Logs.log("Multiple debugger kotlin filters found (${kotlinFiltersCount}): removing extra filters.")
+    if (kotlinFiltersCount >= 1) {
+      Logs.log("Kotlin debugger filters found (${kotlinFiltersCount}): removing extra filters.")
       ClassFilter[] filtersArray = filters.toArray(new ClassFilter[0])
       debuggerSettings.setSteppingFilters(filtersArray)
       logExistingKotlinFiltersCount(false)
     } else {
-      Logs.log("Less than 2 debugger kotlin filters found (${kotlinFiltersCount}), not modifying debugger settings.")
+      Logs.log("No kotlin debugger filters found (${kotlinFiltersCount}), not modifying debugger settings.")
     }
 
     //KotlinDebuggerSettings.getInstance().isFilterForStdlibAlreadyAdded = true

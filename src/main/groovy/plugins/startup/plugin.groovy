@@ -1,7 +1,9 @@
 package plugins.startup
 
+
+import com.intellij.openapi.application.ApplicationManager
+
 import common.Runner
-import liveplugin.PluginUtil
 
 // add-to-classpath $HOME/github/idea-live-plugins/src/main/groovy
 
@@ -11,6 +13,12 @@ def removeExtraDebuggerKotlinFiltersAction = new RemoveExtraDebuggerKotlinFilter
 Runner.registerAction(removeExtraDebuggerKotlinFiltersAction, "Remove Extra Debugger Kotlin Filters")
 
 if (isIdeStartup) {
-  RemoveExtraDebuggerKotlinFiltersAction.logExistingKotlinFiltersCount(false)
-  PluginUtil.actionById(Runner.createActionId(removeExtraDebuggerKotlinFiltersAction)).actionPerformed(PluginUtil.anActionEvent())
+  ApplicationManager.getApplication().invokeLaterOnWriteThread(new Runnable() {
+
+    @Override
+    void run() {
+      RemoveExtraDebuggerKotlinFiltersAction.logExistingKotlinFiltersCount(false)
+      RemoveExtraDebuggerKotlinFiltersAction.run()
+    }
+  })
 }

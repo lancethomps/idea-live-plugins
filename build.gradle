@@ -20,6 +20,10 @@ repositories {
   maven {
     url "https://plugins.gradle.org/m2/"
   }
+  ivy {
+    layout "pattern"
+    artifactPattern "http://raw.githubusercontent.com/dkandalov/kotlin-compiler-wrapper/master/jars/[organisation]-[artifact]-[revision](-[classifier])(.[ext])"
+  }
 }
 
 compileKotlin {
