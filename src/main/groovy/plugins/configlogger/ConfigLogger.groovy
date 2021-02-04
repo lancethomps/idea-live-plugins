@@ -55,18 +55,30 @@ class ConfigLogger {
   }
 
   static void logPlugins() {
-    List<String> pluginIds = PluginManager.getPlugins().collect { [it.getPluginId().toString(), it.getName()].join(" | ") }.toSorted(String.CASE_INSENSITIVE_ORDER)
-    Logs.showMessagesInConsole("Plugins", pluginIds)
+    List<String> plugins = PluginManager.getPlugins().collect { [it.getPluginId().toString(), it.getName()].join(" | ") }.toSorted(String.CASE_INSENSITIVE_ORDER)
+    Logs.showMessagesInConsole("Plugins", plugins)
+  }
+
+  static void logPluginsJson() {
+    List<Map<String, ?>> plugins = PluginManager.getPlugins().collect { it ->
+      [
+        id     : it.getPluginId().toString(),
+        name   : it.getName(),
+        version: it.getVersion(),
+        enabled: it.isEnabled()
+      ]
+    }.toSorted { it.get("id").toString().toLowerCase() }
+    Logs.showMessagesInConsole("Plugins JSON", [JsonOutput.prettyPrint(JsonOutput.toJson(plugins))], false)
   }
 
   static void logPluginVersions() {
-    List<String> pluginIds = PluginManager.getPlugins().collect { [it.getPluginId().toString(), it.getName(), it.getVersion()].join(" | ") }.toSorted(String.CASE_INSENSITIVE_ORDER)
-    Logs.showMessagesInConsole("Plugin Versions", pluginIds)
+    List<String> plugins = PluginManager.getPlugins().collect { [it.getPluginId().toString(), it.getName(), it.getVersion()].join(" | ") }.toSorted(String.CASE_INSENSITIVE_ORDER)
+    Logs.showMessagesInConsole("Plugin Versions", plugins)
   }
 
   static void logPluginIDs() {
-    List<String> pluginIds = PluginManager.getPlugins().collect { it.getPluginId().toString() }.toSorted(String.CASE_INSENSITIVE_ORDER)
-    Logs.showMessagesInConsole("Plugin IDs", pluginIds)
+    List<String> plugins = PluginManager.getPlugins().collect { it.getPluginId().toString() }.toSorted(String.CASE_INSENSITIVE_ORDER)
+    Logs.showMessagesInConsole("Plugin IDs", plugins)
   }
 
   static void logUISettings() {

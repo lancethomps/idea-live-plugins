@@ -36,6 +36,11 @@ class Logs {
   }
 
   static void showMessagesInConsole(String title, Collection<String> messages) {
-    showInConsole("${title}\n${PRINT_SEP}\n${messages.join('\n')}", title, currentProjectInFrame())
+    showMessagesInConsole(title, messages, true)
+  }
+
+  static void showMessagesInConsole(String title, Collection<String> messages, boolean includeTitleInMessage) {
+    String message = includeTitleInMessage ? "${title}\n${PRINT_SEP}\n${messages.join('\n')}" : messages.join('\n')
+    showInConsole(message, title, currentProjectInFrame())
   }
 }
