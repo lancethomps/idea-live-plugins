@@ -55,6 +55,16 @@ class ConfigLogger {
   }
 
   static void logPlugins() {
+    List<String> pluginIds = PluginManager.getPlugins().collect { [it.getPluginId().toString(), it.getName()].join(" | ") }.toSorted(String.CASE_INSENSITIVE_ORDER)
+    Logs.showMessagesInConsole("Plugins", pluginIds)
+  }
+
+  static void logPluginVersions() {
+    List<String> pluginIds = PluginManager.getPlugins().collect { [it.getPluginId().toString(), it.getName(), it.getVersion()].join(" | ") }.toSorted(String.CASE_INSENSITIVE_ORDER)
+    Logs.showMessagesInConsole("Plugin Versions", pluginIds)
+  }
+
+  static void logPluginIDs() {
     List<String> pluginIds = PluginManager.getPlugins().collect { it.getPluginId().toString() }.toSorted(String.CASE_INSENSITIVE_ORDER)
     Logs.showMessagesInConsole("Plugin IDs", pluginIds)
   }
