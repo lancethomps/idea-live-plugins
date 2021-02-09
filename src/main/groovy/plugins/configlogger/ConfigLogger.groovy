@@ -50,7 +50,9 @@ class ConfigLogger {
   static void logLanguages() {
     Logs.showMessagesInConsole(
       "Languages",
-      LanguageUtil.getFileLanguages().collect { it.toString() }.toSorted(String.CASE_INSENSITIVE_ORDER)
+      LanguageUtil.getFileLanguages().collect { it ->
+        "id: ${it.getID()} | displayName: ${it.getDisplayName()}".toString()
+      }.toSorted(String.CASE_INSENSITIVE_ORDER)
     )
   }
 
