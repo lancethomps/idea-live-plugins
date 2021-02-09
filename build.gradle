@@ -53,7 +53,7 @@ version "1.0.0-SNAPSHOT"
 
 dependencies {
   compile "org.codehaus.groovy:groovy-all:2.4.15"
-  compile "liveplugin:live-plugin:0.6.4"
+  compile "liveplugin:live-plugin:0.6.8"
 }
 
 sourceSets {
