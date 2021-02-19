@@ -55,8 +55,12 @@ class LivePluginSandbox {
 
   static void testCompletions() {
     Logs.showMessagesInConsole(
-      "completions",
+      "shell completions",
       CompletionContributor.forLanguage(PrefsUtil.getLanguage("Shell Script")).collect {it.toString()}.toSorted(String.CASE_INSENSITIVE_ORDER)
+    )
+    Logs.showMessagesInConsole(
+      "BashSupport Pro completions",
+      CompletionContributor.forLanguage(PrefsUtil.getLanguage("BashPro Shell Script")).collect { it.toString() }.toSorted(String.CASE_INSENSITIVE_ORDER)
     )
     if (true) {
       return
