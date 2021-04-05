@@ -38,10 +38,9 @@ class PrefsUtil {
 
   static def updateSystemFont(int fontSize) {
     def options = UISettings.instance
-    def state = options.getState()
-    show("Changing system font size from " + state.fontSize + " to " + fontSize)
-    state.fontSize = fontSize
-    options.loadState(state)
+    show("Changing system font size from " + options.fontSize + " to " + fontSize)
+    options.fontSize = fontSize
+    options.fireUISettingsChanged()
   }
 
   static def getJavaCodeStyleKeepLineBreaks() {
