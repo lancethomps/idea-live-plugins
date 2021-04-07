@@ -10,6 +10,7 @@ Runner.isIdeStartup = isIdeStartup
   new CopyFileNameAction(),
   new CopyPathRelativeToHomeAction(),
   new CopyPathRelativeToModuleAction(),
-  new CopyPathRelativeToTopModuleAction()
+  new CopyPathRelativeToTopModuleAction(),
+  new CopyPathRelativeToGitRepoAction()
 ].each { Runner.registerAction(it, it.getActionText()) }
 
