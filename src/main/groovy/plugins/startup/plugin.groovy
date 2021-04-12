@@ -9,16 +9,21 @@ import common.Runner
 
 Runner.isIdeStartup = isIdeStartup
 
-def removeExtraDebuggerKotlinFiltersAction = new RemoveExtraDebuggerKotlinFiltersAction()
-Runner.registerAction(removeExtraDebuggerKotlinFiltersAction, "Remove Extra Debugger Kotlin Filters")
+def runThis = false
+if (runThis) {
+  def removeExtraDebuggerKotlinFiltersAction = new RemoveExtraDebuggerKotlinFiltersAction()
+  Runner.registerAction(removeExtraDebuggerKotlinFiltersAction, "Remove Extra Debugger Kotlin Filters")
 
-if (isIdeStartup) {
-  ApplicationManager.getApplication().invokeLaterOnWriteThread(new Runnable() {
+  if (isIdeStartup) {
+    ApplicationManager.getApplication().invokeLaterOnWriteThread(
+      new Runnable() {
 
-    @Override
-    void run() {
-      RemoveExtraDebuggerKotlinFiltersAction.logExistingKotlinFiltersCount(false)
-      RemoveExtraDebuggerKotlinFiltersAction.run()
-    }
-  })
+        @Override
+        void run() {
+          RemoveExtraDebuggerKotlinFiltersAction.logExistingKotlinFiltersCount(false)
+          RemoveExtraDebuggerKotlinFiltersAction.run()
+        }
+      }
+    )
+  }
 }
