@@ -9,7 +9,7 @@ import com.intellij.openapi.actionSystem.AnAction
 
 class Runner {
 
-  static boolean isIdeStartup
+  public static boolean isIdeStartup
 
   static String createActionId(AnAction action) {
     return action.getClass().getSimpleName().replaceAll(Pattern.compile('Action$'), '')

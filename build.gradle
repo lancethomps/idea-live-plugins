@@ -70,6 +70,13 @@ tasks.buildSearchableOptions {
 }
 
 dependencies {
+  implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+  implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+  implementation("org.jetbrains.kotlin:kotlin-scripting-jvm:$kotlinVersion")
+  implementation("org.jetbrains.kotlin:kotlin-scripting-common:$kotlinVersion")
+  implementation("org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:$kotlinVersion")
+  implementation("org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:$kotlinVersion")
   compile "org.codehaus.groovy:groovy-all:2.4.15"
   compile "liveplugin:live-plugin:0.7.0"
 }

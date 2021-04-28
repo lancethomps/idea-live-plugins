@@ -5,6 +5,7 @@ import plugins.codegen.all.AllGenerateConstructorAction
 import plugins.codegen.all.AllGenerateGetterAction
 
 // add-to-classpath $HOME/github/idea-live-plugins/src/main/groovy
+// depends-on-plugin com.intellij.java
 
 Runner.isIdeStartup = isIdeStartup
 
