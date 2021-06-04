@@ -19,9 +19,15 @@ import com.intellij.openapi.vfs.VirtualFile
 abstract class AbstractCopyFilePathAction extends AnAction implements DumbAware {
 
   protected final String actionText;
+  protected final String keyStroke;
 
   AbstractCopyFilePathAction(String actionText) {
+    this(actionText, "");
+  }
+
+  AbstractCopyFilePathAction(String actionText, String keyStroke) {
     this.actionText = actionText;
+    this.keyStroke = keyStroke;
     setEnabledInModalContext(true);
   }
 
@@ -35,6 +41,10 @@ abstract class AbstractCopyFilePathAction extends AnAction implements DumbAware 
 
   String getActionText() {
     return actionText
+  }
+
+  String getKeyStroke() {
+    return keyStroke
   }
 
   abstract String getCopyStringForFile(AnActionEvent event, VirtualFile file);

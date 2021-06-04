@@ -12,5 +12,5 @@ Runner.isIdeStartup = isIdeStartup
   new CopyPathRelativeToModuleAction(),
   new CopyPathRelativeToTopModuleAction(),
   new CopyPathRelativeToGitRepoAction()
-].each { Runner.registerAction(it, it.getActionText()) }
+].each { Runner.registerAction(it, it.getActionText(), it.getKeyStroke()) }
 
