@@ -24,7 +24,7 @@ import groovy.json.JsonOutput
 class ConfigLogger {
 
   static void logActions() {
-    List<String> actionIds = ActionManager.getInstance().getActionIds("").toList().toSorted(String.CASE_INSENSITIVE_ORDER)
+    List<String> actionIds = ActionManager.getInstance().getActionIdList("").toSorted(String.CASE_INSENSITIVE_ORDER)
     Logs.showMessagesInConsole("Action IDs", actionIds)
   }
 

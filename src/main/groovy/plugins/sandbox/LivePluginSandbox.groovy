@@ -30,8 +30,20 @@ class LivePluginSandbox {
   }
 
   static def test2() {
-    def info = ActionManager.getInstance().getAction("CopyPaths").getClass().getName()
+    def info = ActionManager.getInstance().getAction("CollapseAll").getClass().getName()
     Logs.showMessagesInConsole("Action", [info])
+  }
+
+  static def testCollapseExpandAction() {
+    def collapseActions = ActionManager.getInstance().getActionIdList("").findAll { it.toLowerCase().contains("expand") }.toSorted(String.CASE_INSENSITIVE_ORDER)
+    def messages = collapseActions.collect { actionId ->
+      def action = ActionManager.getInstance().getAction(actionId)
+      return "${actionId} | ${action.getClass().getName()} | ${action.getShortcutSet().getShortcuts().collect { it -> it.toString() }}"
+    }
+//    def action = ActionManager.getInstance().getAction("CollapseAll")
+//    def action = ActionManager.getInstance().getAction("ExternalSystem.CollapseAll")
+//    def messages = action.getShortcutSet().getShortcuts().collect {it -> it.toString() }
+    Logs.showMessagesInConsole("Action", messages)
   }
 
   static void testFilePaths() {
