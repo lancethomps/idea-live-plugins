@@ -21,11 +21,14 @@ class FileLoggerAction extends AnAction {
         if (file.isFile()) {
           def infos = [
             type: vfile.getFileType().getName(),
+            type_display: vfile.getFileType().getDisplayName(),
+            type_desc: vfile.getFileType().getDescription(),
+            type_default_ext: vfile.getFileType().getDefaultExtension(),
             ext: vfile.getExtension(),
             url: vfile.getPresentableUrl(),
             path: vfile.getPath()
           ]
-          def messages = infos.collect { key, val -> "${key.padRight(10)} -> ${val}"}
+          def messages = infos.collect { key, val -> "${key.padRight(20)} -> ${val}"}
           Logs.showMessagesInConsole("File Info", messages)
         } else {
           PluginUtil.show("IntelliJ editor file is not an actual file: ${vfile.toString()}")
