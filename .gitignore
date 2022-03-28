@@ -1,6 +1,7 @@
 src/main/java/com/lancethomps/TestData.java
 
 .gradle
+/gradlew.bat
 /build/
 
 # Ignore Gradle GUI config
