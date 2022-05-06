@@ -40,6 +40,6 @@ class OpenInVSCodeAction extends AnAction {
     if (userFile.exists() && userFile.canExecute()) {
       return userFile.getCanonicalPath()
     }
-    return "/usr/local/bin/code"
+    return "/opt/homebrew/bin/code"
   }
 }
