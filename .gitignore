@@ -3,6 +3,7 @@ src/main/java/com/lancethomps/TestData.java
 .gradle
 /gradlew.bat
 /build/
+classpath.index
 
 # Ignore Gradle GUI config
 gradle-app.setting
