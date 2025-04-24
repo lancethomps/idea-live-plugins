@@ -1,9 +1,11 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
   java
   groovy
-  id("com.github.ben-manes.versions") version "0.42.0"
-  id("org.jetbrains.intellij") version "1.9.0"
-  kotlin("jvm") version "1.6.21"
+  id("com.github.ben-manes.versions") version "0.52.0"
+  id("org.jetbrains.intellij.platform") version "2.0.1"
+  kotlin("jvm") version "2.0.10"
 }
 
 repositories {
@@ -11,6 +13,10 @@ repositories {
   mavenCentral()
   google()
   gradlePluginPortal()
+
+  intellijPlatform {
+    defaultRepositories()
+  }
 }
 
 java {
@@ -18,16 +24,31 @@ java {
   targetCompatibility = JavaVersion.VERSION_17
 }
 
+val kotlinVersion = "2.0.10"
+val groovyVersion = "3.0.19"
+//243.21155.17-EAP-SNAPSHOT
+val ideVersion = System.getenv().getOrDefault("LIVEPLUGIN_IDEA_VERSION", "2024.3")
+println("Using IntelliJ version: ${ideVersion}")
+
 dependencies {
-  implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.6.21")
-  implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
-  implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
-  implementation("org.jetbrains.kotlin:kotlin-scripting-jvm:1.6.21")
-  implementation("org.jetbrains.kotlin:kotlin-scripting-common:1.6.21")
-  implementation("org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:1.6.21")
-  implementation("org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:1.6.21")
-  compileOnly("org.codehaus.groovy:groovy-all:3.0.9")
-  compileOnly("liveplugin:live-plugin:0.8.2")
+  implementation("org.jetbrains.kotlin:kotlin-compiler-embeddable:${kotlinVersion}")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
+  implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+  implementation("org.jetbrains.kotlin:kotlin-scripting-jvm:${kotlinVersion}")
+  implementation("org.jetbrains.kotlin:kotlin-scripting-common:${kotlinVersion}")
+  implementation("org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable:${kotlinVersion}")
+  implementation("org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable:${kotlinVersion}")
+  compileOnly("org.codehaus.groovy:groovy-all:${groovyVersion}")
+  compileOnly("liveplugin:live-plugin:0.9.5")
+  intellijPlatform {
+    intellijIdeaCommunity(ideVersion, false)
+    bundledPlugin("com.intellij.java")
+    bundledPlugin("org.intellij.groovy")
+    bundledPlugin("org.jetbrains.kotlin")
+    bundledPlugin("Git4Idea")
+    bundledPlugin("org.jetbrains.plugins.github")
+    bundledPlugin("JUnit")
+  }
 }
 
 sourceSets {
@@ -38,26 +59,26 @@ sourceSets {
   }
 }
 
-intellij {
-  val ideVersion = System.getenv().getOrDefault("LIVEPLUGIN_IDEA_VERSION", "2022.3")
-  println("Using IntelliJ version: ${ideVersion}")
-  version.set(ideVersion)
+intellijPlatform {
+  projectName = "idea-live-plugins"
+  instrumentCode = false
+  buildSearchableOptions = false
+  pluginConfiguration {
+    id = "idea-live-plugins"
+    name = "idea-live-plugins"
+    ideaVersion {
+      untilBuild.set(provider { null })
+    }
+  }
+}
 
-  pluginName.set("idea-live-plugins")
-  downloadSources.set(true)
-  sameSinceUntilBuild.set(false)
-  updateSinceUntilBuild.set(false)
-
-  plugins.set(
-    listOf("Groovy", "Kotlin", "Git4Idea", "org.jetbrains.plugins.github", "junit", "java")
-  )
+kotlin {
+  compilerOptions {
+    jvmTarget.set(JvmTarget.JVM_17)
+  }
 }
 
 tasks {
   buildSearchableOptions { enabled = false }
   wrapper { distributionType = Wrapper.DistributionType.ALL }
-
-  withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions { jvmTarget = "17" }
-  }
 }
